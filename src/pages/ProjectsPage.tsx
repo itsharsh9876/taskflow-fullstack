@@ -9,9 +9,11 @@ export default function ProjectsPage() {
 const [users, setUsers] = useState<any[]>([]);
 const [selectedUser, setSelectedUser] = useState("");
 
+const API_URL = import.meta.env.VITE_API_URL;
+
   // 🔹 Load projects
   const loadProjects = async () => {
-    const res = await fetch("http://localhost:5000/api/projects", {
+    const res = await fetch(`${API_URL}/api/projects`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -22,7 +24,7 @@ const [selectedUser, setSelectedUser] = useState("");
   };
 
   const loadUsers = async () => {
-  const res = await fetch("http://localhost:5000/api/users", {
+  const res = await fetch(`${API_URL}/api/users`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -37,13 +39,13 @@ const [selectedUser, setSelectedUser] = useState("");
  const handleCreate = async () => {
   if (!name.trim()) return;
 
-  const res = await fetch("http://localhost:5000/api/projects", {
+  const res = await fetch(`${API_URL}/api/projects`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify({ name })
+    body: JSON.stringify({ name, admin: user.id })
   });
 
   const data = await res.json();
@@ -62,7 +64,7 @@ const [selectedUser, setSelectedUser] = useState("");
   if (!selectedUser) return;
 
   await fetch(
-    `http://localhost:5000/api/projects/${projectId}/add-member`,
+    `${API_URL}/api/projects/${projectId}/add-member`,
     {
       method: "PUT",
       headers: {
@@ -78,7 +80,7 @@ const [selectedUser, setSelectedUser] = useState("");
 
 const removeMember = async (projectId: string, userId: string) => {
   await fetch(
-    `http://localhost:5000/api/projects/${projectId}/remove-member`,
+    `${API_URL}/api/projects/${projectId}/remove-member`,
     {
       method: "PUT",
       headers: {

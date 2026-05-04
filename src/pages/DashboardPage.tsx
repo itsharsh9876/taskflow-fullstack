@@ -27,9 +27,11 @@ export default function DashboardPage() {
   const [dueDate, setDueDate] = useState("");
 const [priority, setPriority] = useState("Medium");
 
+const API_URL = import.meta.env.VITE_API_URL;
+
   // 🔹 Load users
   const loadUsers = async () => {
-    const res = await fetch("http://localhost:5000/api/users", {
+    const res = await fetch(`${API_URL}/api/users`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -44,7 +46,7 @@ const [priority, setPriority] = useState("Medium");
 
   // 🔹 Load projects
   const loadProjects = async () => {
-    const res = await fetch("http://localhost:5000/api/projects", {
+    const res = await fetch(`${API_URL}/api/projects`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -60,7 +62,7 @@ const [priority, setPriority] = useState("Medium");
   // 🔹 Load tasks
   const loadTasks = async (projectId: string) => {
     const res = await fetch(
-      `http://localhost:5000/api/tasks?projectId=${projectId}`,
+      `${API_URL}/api/tasks?projectId=${projectId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -89,7 +91,7 @@ const [priority, setPriority] = useState("Medium");
     if (!title || !selectedProject) return;
  
     console.log("SENDING:", assignedTo);
-    await fetch("http://localhost:5000/api/tasks", {
+    await fetch(`${API_URL}/api/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +122,7 @@ const [priority, setPriority] = useState("Medium");
         ? "Done"
         : "To Do";
 
-    await fetch(`http://localhost:5000/api/tasks/${id}`, {
+    await fetch(`${API_URL}/api/tasks/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -134,7 +136,7 @@ const [priority, setPriority] = useState("Medium");
 
   // 🔹 Delete Task
   const deleteTask = async (id: string) => {
-    await fetch(`http://localhost:5000/api/tasks/${id}`, {
+    await fetch(`${API_URL}/api/tasks/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`
